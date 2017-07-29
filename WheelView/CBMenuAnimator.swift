@@ -10,7 +10,7 @@ import UIKit
 
 @objc protocol CBMenuAnimatorDelegate: class {
     
-    func destenationPositionForSegment(at indexPath:NSIndexPath,segment: CBMenuItem)
+    func destenationPositionForSegment(at indexPath:NSIndexPath)->CGPoint
     
     
     optional func willShowSegment(at indexPath:NSIndexPath, segment: CBMenuItem)

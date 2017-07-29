@@ -59,32 +59,33 @@ class CBMenu: UIView {
         return _dataSource.numberOfSegments()
         }()
     
-    private(set) var segments:[CBMenuItem] = {
+    lazy private(set) var segments:[CBMenuItem] = {
         var _segments:[CBMenuItem] = []
         
         if let _dataSource = self.dataSource {
-            for section in 0..<self.sectionCount{
-                let angleForEachSection =  /*self.angle */ 90.radians
-                //create segments
-                for item in 0..<self.segmentCount {
-                    let indexPath = NSIndexPath(forItem: item, inSection: section)
-                    let images = _dataSource.imageForSegment(at: indexPath)
-                    
-                    let position = self.pointOnCircle(self.origin, numberOfSegments: self.segmentCount, angle: angleForEachSection, index: item, radius: self.radius)
-                    
-                    let frame = CGRect(origin: position, size: self.segmentSize)
-                    
-                    let newSegment = CBMenuItem(active: images.active, unactive: images.unactive, frame: frame, onTap: self.onTapSegment)
-                    let w = newSegment.widthAnchor.constraintEqualToConstant(self.segmentSize.width)
-                    let h = newSegment.heightAnchor.constraintEqualToConstant(self.segmentSize.height)
-                    newSegment.addConstraints([w,h])
-                    self.segments.append(newSegment)
+            //let angleForEachSection =  /*self.angle */ 90.radians
+            //create segments
+            for item in 0..<self.segmentCount {
+                let indexPath = NSIndexPath(forItem: item, inSection: 0)
+                let images = _dataSource.imageForSegment(at: indexPath)
+                
+                let destenationPosition = CGPointZero
+                if let _animator = self.animator {
+                    destenationPosition = _animator.destenationPositionForSegment(at indexPath)
                 }
+                
+                let frame = CGRect(origin: destenationPosition, size: self.segmentSize)
+                
+                let newSegment = CBMenuItem(active: images.active, unactive: images.unactive, frame: frame, onTap: self.onTapSegment)
+                let w = newSegment.widthAnchor.constraintEqualToConstant(self.segmentSize.width)
+                let h = newSegment.heightAnchor.constraintEqualToConstant(self.segmentSize.height)
+                newSegment.addConstraints([w,h])
+                
+                _segments.append(newSegment)
             }
+            
         }
-        
         return _segments
-        
     }()
     
     
@@ -97,12 +98,12 @@ class CBMenu: UIView {
         }()
     /*
     lazy var radius:Double  = {
-        print("self frame: \(self.frame)")
-        //print("background frame: \(self.backgroundView.frame)")
-        let d = Double((max(self.frame.width, self.frame.height) / 2.0 )) - Double(self.segmentSize.width)
-        //print("asdasd \(d)")
-        return d
-        }()*/
+    print("self frame: \(self.frame)")
+    //print("background frame: \(self.backgroundView.frame)")
+    let d = Double((max(self.frame.width, self.frame.height) / 2.0 )) - Double(self.segmentSize.width)
+    //print("asdasd \(d)")
+    return d
+    }()*/
     
     lazy var origin:CGPoint = {
         //для того что бы расщитать корректный цента объекта не зависимо от анкор поинта нужно:
@@ -192,27 +193,27 @@ class CBMenu: UIView {
     }
     /*
     func createSegments(){
-        //set number of items in view
-        if let _dataSource = self.dataSource {
-            for section in 0..<self.sectionCount{
-                let angleForEachSection =  /*self.angle */ 90.radians
-                //create segments
-                for item in 0..<self.segmentCount {
-                    let indexPath = NSIndexPath(forItem: item, inSection: section)
-                    let images = _dataSource.imageForSegment(at: indexPath)
-                    
-                    let position = self.pointOnCircle(self.origin, numberOfSegments: self.segmentCount, angle: angleForEachSection, index: item, radius: self.radius)
-                    
-                    let frame = CGRect(origin: position, size: self.segmentSize)
-                    
-                    let newSegment = CBMenuItem(active: images.active, unactive: images.unactive, frame: frame, onTap: self.onTapSegment)
-                    let w = newSegment.widthAnchor.constraintEqualToConstant(self.segmentSize.width)
-                    let h = newSegment.heightAnchor.constraintEqualToConstant(self.segmentSize.height)
-                    newSegment.addConstraints([w,h])
-                    self.segments.append(newSegment)
-                }
-            }
-        }
+    //set number of items in view
+    if let _dataSource = self.dataSource {
+    for section in 0..<self.sectionCount{
+    let angleForEachSection =  /*self.angle */ 90.radians
+    //create segments
+    for item in 0..<self.segmentCount {
+    let indexPath = NSIndexPath(forItem: item, inSection: section)
+    let images = _dataSource.imageForSegment(at: indexPath)
+    
+    let position = self.pointOnCircle(self.origin, numberOfSegments: self.segmentCount, angle: angleForEachSection, index: item, radius: self.radius)
+    
+    let frame = CGRect(origin: position, size: self.segmentSize)
+    
+    let newSegment = CBMenuItem(active: images.active, unactive: images.unactive, frame: frame, onTap: self.onTapSegment)
+    let w = newSegment.widthAnchor.constraintEqualToConstant(self.segmentSize.width)
+    let h = newSegment.heightAnchor.constraintEqualToConstant(self.segmentSize.height)
+    newSegment.addConstraints([w,h])
+    self.segments.append(newSegment)
+    }
+    }
+    }
     }*/
     
     //MARK:- segment's tap handler
@@ -248,23 +249,23 @@ class CBMenu: UIView {
             }
         }
         /*UIView.animateWithDuration(SHOW_SEGMENTS_ANIMATION_DURATION, delay: 0.2, usingSpringWithDamping: 0.6, initialSpringVelocity: 0, options: [], animations: { () -> Void in
-            self.backgroundView.expand()
-            }, completion: nil)
+        self.backgroundView.expand()
+        }, completion: nil)
         */
         //let angleForEachSection =  /*self.angle */ 90.radians
         
         //let startPoint = self.pointOnCircle(self.origin, numberOfSegments: self.segmentCount, angle: angleForEachSection, index: num, radius: self.radius)
         /*
         for (index,segment) in self.segments.enumerate() {
-            //reset segment's origin point
-            segment.transform = CGAffineTransformMakeTranslation(self.origin.x, self.origin.y)
-            self.backgroundView.addSubview(segment)
-            
-            UIView.animateWithDuration(SHOW_SEGMENTS_ANIMATION_DURATION, delay: SHOW_SEGMENTS_ANIMATION_DELAY * Double(index), usingSpringWithDamping: 0.6, initialSpringVelocity: 0, options: [.AllowUserInteraction,.CurveEaseOut], animations: { () -> Void in
-                let destenation = segment.destenationPosition
-                segment.transform = CGAffineTransformMakeTranslation(destenation.x, destenation.y)
-                segment.alpha = 1
-                }, completion: nil)
+        //reset segment's origin point
+        segment.transform = CGAffineTransformMakeTranslation(self.origin.x, self.origin.y)
+        self.backgroundView.addSubview(segment)
+        
+        UIView.animateWithDuration(SHOW_SEGMENTS_ANIMATION_DURATION, delay: SHOW_SEGMENTS_ANIMATION_DELAY * Double(index), usingSpringWithDamping: 0.6, initialSpringVelocity: 0, options: [.AllowUserInteraction,.CurveEaseOut], animations: { () -> Void in
+        let destenation = segment.destenationPosition
+        segment.transform = CGAffineTransformMakeTranslation(destenation.x, destenation.y)
+        segment.alpha = 1
+        }, completion: nil)
         }*/
     }
     func hideSegments()throws {
@@ -281,18 +282,18 @@ class CBMenu: UIView {
                 didHide(at: indexPath, segment: segment)
             }
         }
-
+        
         /*
         UIView.animateWithDuration(0.1, delay: 0.4, usingSpringWithDamping: 0.5, initialSpringVelocity: 0, options: [], animations: { () -> Void in
-            }) { (_) -> Void in
-                for (index,segment) in self.segments.enumerate() {
-                    UIView.animateWithDuration(self.HIDE_SEGMENTS_ANIMATION_DURATION, delay: self.HIDE_SEGMENTS_ANIMATION_DELAY * Double(index), usingSpringWithDamping: 0.6, initialSpringVelocity: 0, options: [.AllowUserInteraction, .CurveEaseOut ], animations: { () -> Void in
-                        segment.transform = CGAffineTransformMakeTranslation(self.origin.x, self.origin.y)
-                        segment.alpha = 0
-                        }, completion: {(_)in
-                            segment.removeFromSuperview()
-                    })
-                }
+        }) { (_) -> Void in
+        for (index,segment) in self.segments.enumerate() {
+        UIView.animateWithDuration(self.HIDE_SEGMENTS_ANIMATION_DURATION, delay: self.HIDE_SEGMENTS_ANIMATION_DELAY * Double(index), usingSpringWithDamping: 0.6, initialSpringVelocity: 0, options: [.AllowUserInteraction, .CurveEaseOut ], animations: { () -> Void in
+        segment.transform = CGAffineTransformMakeTranslation(self.origin.x, self.origin.y)
+        segment.alpha = 0
+        }, completion: {(_)in
+        segment.removeFromSuperview()
+        })
+        }
         }
         */
     }
