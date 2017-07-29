@@ -10,13 +10,8 @@ import UIKit
 
 @objc protocol CBMenuAnimatorDelegate: class {
     
-    weak var owner:CBMenu? {get set}
-    
-    init(withOwner owner:CBMenuItem)
-    
     func destenationPositionForSegment(at indexPath:NSIndexPath)->CGPoint
-    
-    
+        
     optional func willShowSegment(at indexPath:NSIndexPath, segment: CBMenuItem)
     optional func willHideSegment(at indexPath:NSIndexPath, segment: CBMenuItem)
     
