@@ -9,7 +9,9 @@
 import UIKit
 
 @objc protocol CBMenuAnimatorDelegate: class {
-    init(withData segments:[CBMenuItem])
+    
+    func destenationPositionForSegment(at indexPath:NSIndexPath,segment: CBMenuItem)
+    
     
     optional func willShowSegment(at indexPath:NSIndexPath, segment: CBMenuItem)
     optional func willHideSegment(at indexPath:NSIndexPath, segment: CBMenuItem)

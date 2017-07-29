@@ -9,9 +9,13 @@
 import UIKit
 typealias ToggleImages = (active:UIImage, unactive:UIImage)
 
+enum CBMenuError : ErrorType {
+    case AnimatorNullPointer
+    
+}
+
+
 protocol CBMenuDataSource {
-    //func showAnimationForSegment(at indexPath:NSIndexPath, item:CBMenuItem!)
-    //func hideAnimationForSegment(at indexPath:NSIndexPath, item:CBMenuItem!)
     func numberOfSegments() -> Int
     func imageForSegment(at indexPath:NSIndexPath) -> ToggleImages
     
@@ -27,6 +31,7 @@ class CBMenu: UIView {
     
     var dataSource:CBMenuDataSource?
     var delegate:CBMenuDelegate?
+    var animator:CBMenuAnimatorDelegate?
     
     lazy var backgroundView:BackgroundView! = {
         let view = BackgroundView(withSuperView: self)
@@ -54,7 +59,34 @@ class CBMenu: UIView {
         return _dataSource.numberOfSegments()
         }()
     
-    private(set) var segments:[CBMenuItem] = []
+    private(set) var segments:[CBMenuItem] = {
+        var _segments:[CBMenuItem] = []
+        
+        if let _dataSource = self.dataSource {
+            for section in 0..<self.sectionCount{
+                let angleForEachSection =  /*self.angle */ 90.radians
+                //create segments
+                for item in 0..<self.segmentCount {
+                    let indexPath = NSIndexPath(forItem: item, inSection: section)
+                    let images = _dataSource.imageForSegment(at: indexPath)
+                    
+                    let position = self.pointOnCircle(self.origin, numberOfSegments: self.segmentCount, angle: angleForEachSection, index: item, radius: self.radius)
+                    
+                    let frame = CGRect(origin: position, size: self.segmentSize)
+                    
+                    let newSegment = CBMenuItem(active: images.active, unactive: images.unactive, frame: frame, onTap: self.onTapSegment)
+                    let w = newSegment.widthAnchor.constraintEqualToConstant(self.segmentSize.width)
+                    let h = newSegment.heightAnchor.constraintEqualToConstant(self.segmentSize.height)
+                    newSegment.addConstraints([w,h])
+                    self.segments.append(newSegment)
+                }
+            }
+        }
+        
+        return _segments
+        
+    }()
+    
     
     //segments parameters
     lazy private(set) var segmentSize:CGSize =  {
@@ -92,13 +124,13 @@ class CBMenu: UIView {
     
     //MARK:- menu parameters
     var isMenuExpanded:Bool = false
-    
+    /*
     //MARK:- animation's parameters
     let SHOW_SEGMENTS_ANIMATION_DURATION = 0.4
     let HIDE_SEGMENTS_ANIMATION_DURATION = 0.4
     
     let SHOW_SEGMENTS_ANIMATION_DELAY = 0.0
-    let HIDE_SEGMENTS_ANIMATION_DELAY = 0.1
+    let HIDE_SEGMENTS_ANIMATION_DELAY = 0.1*/
     
     //MARK:- initialization
     
@@ -108,10 +140,11 @@ class CBMenu: UIView {
         self.backgroundColor = UIColor.clearColor()
     }
     
-    convenience init(withDataSource dataSource:CBMenuDataSource,delegate: CBMenuDelegate, frame: CGRect = CGRectZero){
+    convenience init(withDataSource dataSource:CBMenuDataSource,delegate: CBMenuDelegate, animator:CBMenuAnimatorDelegate, frame: CGRect = CGRectZero){
         self.init(frame: frame)
         self.dataSource = dataSource
         self.delegate = delegate
+        self.animator = animator
     }
     
     //Call this method when datasource delegate and frame already initialized, and it can correctly calculate segment's destenation positions
@@ -190,17 +223,30 @@ class CBMenu: UIView {
     func onTapShowHideButton(sender:UIButton){
         if self.isMenuExpanded {
             //hide
-            self.hideSegments()
+            //self.hideSegments()
         }else {
             //show
-            self.showSegments()
+            //try self.showSegments()
         }
         self.isMenuExpanded = !self.isMenuExpanded
         print("tap on menu button")
     }
     
     //MARK:-  animation functions
-    func showSegments(){
+    func showSegments() throws {
+        guard let _animator = self.animator else {
+            throw CBMenuError.AnimatorNullPointer
+        }
+        for (index, segment) in self.segments.enumerate() {
+            let indexPath = NSIndexPath(forItem: index, inSection: 0)
+            if let willShow = _animator.willShowSegment{
+                willShow(at: indexPath, segment: segment)
+            }
+            _animator.showSegment(at: indexPath, segment: segment)
+            if let didShow = _animator.didShowSegment{
+                didShow(at: indexPath, segment: segment)
+            }
+        }
         /*UIView.animateWithDuration(SHOW_SEGMENTS_ANIMATION_DURATION, delay: 0.2, usingSpringWithDamping: 0.6, initialSpringVelocity: 0, options: [], animations: { () -> Void in
             self.backgroundView.expand()
             }, completion: nil)
@@ -221,7 +267,21 @@ class CBMenu: UIView {
                 }, completion: nil)
         }*/
     }
-    func hideSegments(){
+    func hideSegments()throws {
+        guard let _animator = self.animator else {
+            throw CBMenuError.AnimatorNullPointer
+        }
+        for (index, segment) in self.segments.enumerate() {
+            let indexPath = NSIndexPath(forItem: index, inSection: 0)
+            if let willHide = _animator.willHideSegment{
+                willHide(at: indexPath, segment: segment)
+            }
+            _animator.hideSegment(at: indexPath, segment: segment)
+            if let didHide = _animator.didHideSegment{
+                didHide(at: indexPath, segment: segment)
+            }
+        }
+
         /*
         UIView.animateWithDuration(0.1, delay: 0.4, usingSpringWithDamping: 0.5, initialSpringVelocity: 0, options: [], animations: { () -> Void in
             }) { (_) -> Void in
