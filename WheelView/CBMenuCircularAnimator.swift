@@ -11,19 +11,18 @@ import UIKit
 @objc class CBMenuCircularAnimator: NSObject, CBMenuAnimatorDelegate {
     
     
-    let xOffset:CGFloat = 25.0
-    var currentXPosition:CGFloat = 0.0
-    var pos:CGPoint = CGPointZero
+    let xOffset:CGFloat = 35.0
+    //var currentXPosition:CGFloat = 0.0
+    lazy var curOffset:CGPoint = {
+        return CGPoint(x: self.xOffset, y: 0)
+    }()
+    
     func destenationPositionForSegment(menu:CBMenu, at indexPath:NSIndexPath)->CGPoint{
-        if indexPath.item % 2 == 0 {
-            pos = CGPointMake(currentXPosition, menu.frame.height / 2)
-        }else {
-            pos = CGPointMake(-currentXPosition, menu.frame.height / 2)
-        }
-        currentXPosition += xOffset
         
+        let xSign:CGFloat = indexPath.item % 2 == 0 ? 1 : -1
+        let x = menu.origin.x + (xOffset * CGFloat(indexPath.item) * xSign)
         
-        return pos
+        return CGPointMake(x, menu.origin.y)
     }
     
     func showSegment(menu:CBMenu, at indexPath:NSIndexPath, segment: CBMenuItem)

@@ -71,7 +71,7 @@ extension ViewController:CBMenuDataSource, CBMenuDelegate {
     
     func numberOfSegments() -> Int
     {
-        return 3
+        return 4
     }
     func imageForSegment(at indexPath:NSIndexPath) -> ToggleImages
     {

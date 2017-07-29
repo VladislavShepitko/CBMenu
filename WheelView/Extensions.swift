@@ -6,7 +6,7 @@
 //  Copyright © 2017 Vladyslav Shepitko. All rights reserved.
 //
 
-import Foundation
+import UIKit
 
 extension Double {
     var radians:Double{
@@ -16,7 +16,28 @@ extension Double {
     }
     var degrees:Double {
         get {
-            return 0.0
+            return self / M_PI * 180.0
         }
     }
+}
+
+func + (lp:CGPoint, rp:CGPoint) -> CGPoint
+{
+    return CGPoint(x: lp.x + rp.x, y: lp.y + rp.y)
+}
+func - (lp:CGPoint, rp:CGPoint) -> CGPoint
+{
+    return CGPoint(x: lp.x - rp.x, y: lp.y - rp.y)
+}
+func += (var lp:CGPoint, rp:CGPoint) -> CGPoint
+{
+    lp.x += rp.x
+    lp.y += rp.y
+    return lp
+}
+func -= (var lp:CGPoint, rp:CGPoint) -> CGPoint
+{
+    lp.x -= rp.x
+    lp.y -= rp.y
+    return lp
 }
