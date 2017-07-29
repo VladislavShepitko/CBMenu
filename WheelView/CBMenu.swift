@@ -208,7 +208,7 @@ class CBMenu: UIView {
         let angleForEachSection =  /*self.angle */ 90.radians
         
         //let startPoint = self.pointOnCircle(self.origin, numberOfSegments: self.segmentCount, angle: angleForEachSection, index: num, radius: self.radius)
-        
+        /*
         for (index,segment) in self.segments.enumerate() {
             //reset segment's origin point
             segment.transform = CGAffineTransformMakeTranslation(self.origin.x, self.origin.y)
@@ -219,10 +219,10 @@ class CBMenu: UIView {
                 segment.transform = CGAffineTransformMakeTranslation(destenation.x, destenation.y)
                 segment.alpha = 1
                 }, completion: nil)
-        }
+        }*/
     }
     func hideSegments(){
-        UIView.animateWithDuration(0.1, delay: 0.4, usingSpringWithDamping: 0.5, initialSpringVelocity: 0, options: [], animations: { () -> Void in
+        /*UIView.animateWithDuration(0.1, delay: 0.4, usingSpringWithDamping: 0.5, initialSpringVelocity: 0, options: [], animations: { () -> Void in
             }) { (_) -> Void in
                 for (index,segment) in self.segments.enumerate() {
                     UIView.animateWithDuration(self.HIDE_SEGMENTS_ANIMATION_DURATION, delay: self.HIDE_SEGMENTS_ANIMATION_DELAY * Double(index), usingSpringWithDamping: 0.6, initialSpringVelocity: 0, options: [.AllowUserInteraction, .CurveEaseOut ], animations: { () -> Void in
@@ -232,7 +232,7 @@ class CBMenu: UIView {
                             segment.removeFromSuperview()
                     })
                 }
-        }
+        }*/
         
     }
     
