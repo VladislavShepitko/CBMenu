@@ -63,15 +63,14 @@ class CBMenu: UIView {
         var _segments:[CBMenuItem] = []
         
         if let _dataSource = self.dataSource {
-            //let angleForEachSection =  /*self.angle */ 90.radians
             //create segments
             for item in 0..<self.segmentCount {
                 let indexPath = NSIndexPath(forItem: item, inSection: 0)
                 let images = _dataSource.imageForSegment(at: indexPath)
                 
-                let destenationPosition = CGPointZero
+                var destenationPosition = CGPointZero
                 if let _animator = self.animator {
-                    destenationPosition = _animator.destenationPositionForSegment(at indexPath)
+                    destenationPosition = _animator.destenationPositionForSegment(at:indexPath)
                 }
                 
                 let frame = CGRect(origin: destenationPosition, size: self.segmentSize)
@@ -95,7 +94,7 @@ class CBMenu: UIView {
             return CGSizeZero
         }
         return _delegate.sizeForSegments()
-        }()
+    }()
     /*
     lazy var radius:Double  = {
     print("self frame: \(self.frame)")
