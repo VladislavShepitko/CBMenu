@@ -10,17 +10,17 @@ import UIKit
 
 @objc protocol CBMenuAnimatorDelegate {
     
-    func destenationPositionForSegment(at indexPath:NSIndexPath)->CGPoint
+    func destenationPositionForSegment(menu:CBMenu, at indexPath:NSIndexPath)->CGPoint
         
-    optional func willShowSegment(at indexPath:NSIndexPath, segment: CBMenuItem)
-    optional func willHideSegment(at indexPath:NSIndexPath, segment: CBMenuItem)
+    optional func willShowSegment(menu:CBMenu, at indexPath:NSIndexPath, segment: CBMenuItem)
+    optional func willHideSegment(menu:CBMenu,at indexPath:NSIndexPath, segment: CBMenuItem)
     
-    func showSegment(at indexPath:NSIndexPath, segment: CBMenuItem)
-    func hideSegment(at indexPath:NSIndexPath, segment: CBMenuItem)
+    func showSegment(menu:CBMenu, at indexPath:NSIndexPath, segment: CBMenuItem)
+    func hideSegment(menu:CBMenu, at indexPath:NSIndexPath, segment: CBMenuItem)
     
     
-    optional func didShowSegment(at indexPath:NSIndexPath, segment: CBMenuItem)
-    optional func didHideSegment(at indexPath:NSIndexPath, segment: CBMenuItem)
+    optional func didShowSegment(menu:CBMenu, at indexPath:NSIndexPath, segment: CBMenuItem)
+    optional func didHideSegment(menu:CBMenu, at indexPath:NSIndexPath, segment: CBMenuItem)
     
     
     

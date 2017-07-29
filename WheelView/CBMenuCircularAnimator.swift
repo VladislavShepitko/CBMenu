@@ -11,16 +11,31 @@ import UIKit
 @objc class CBMenuCircularAnimator: NSObject, CBMenuAnimatorDelegate {
     
     
-    
-    func destenationPositionForSegment(at indexPath:NSIndexPath)->CGPoint{
-        return CGPointZero
+    let xOffset:CGFloat = 25.0
+    var currentXPosition:CGFloat = 0.0
+    var pos:CGPoint = CGPointZero
+    func destenationPositionForSegment(menu:CBMenu, at indexPath:NSIndexPath)->CGPoint{
+        if indexPath.item % 2 == 0 {
+            pos = CGPointMake(currentXPosition, menu.frame.height / 2)
+        }else {
+            pos = CGPointMake(-currentXPosition, menu.frame.height / 2)
+        }
+        currentXPosition += xOffset
+        
+        
+        return pos
     }
     
-    func showSegment(at indexPath:NSIndexPath, segment: CBMenuItem)
+    func showSegment(menu:CBMenu, at indexPath:NSIndexPath, segment: CBMenuItem)
     {
         print("show \(indexPath.item) element in \(segment.destenationPosition)")
+        menu.backgroundView.addSubview(segment)
+        UIView.animateWithDuration(0.4 * Double(indexPath.item), animations: { () -> Void in
+            segment.transform = CGAffineTransformMakeTranslation(segment.destenationPosition.x, segment.destenationPosition.y)
+            segment.alpha = 1
+        })
     }
-    func hideSegment(at indexPath:NSIndexPath, segment: CBMenuItem){
+    func hideSegment(menu:CBMenu, at indexPath:NSIndexPath, segment: CBMenuItem){
         print("hide \(indexPath.item) element in \(segment.destenationPosition)")
     }
     

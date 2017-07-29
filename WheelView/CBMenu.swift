@@ -70,7 +70,7 @@ class CBMenu: UIView {
                 
                 var destenationPosition = CGPointZero
                 if let _animator = self.animator {
-                    destenationPosition = _animator.destenationPositionForSegment(at:indexPath)
+                    destenationPosition = _animator.destenationPositionForSegment(self, at:indexPath)
                 }
                 
                 let frame = CGRect(origin: destenationPosition, size: self.segmentSize)
@@ -248,12 +248,12 @@ class CBMenu: UIView {
         for (index, segment) in self.segments.enumerate() {
             let indexPath = NSIndexPath(forItem: index, inSection: 0)
             if let willShow = _animator.willShowSegment{
-                willShow(at: indexPath, segment: segment)
+                willShow(self, at: indexPath, segment: segment)
             }
             //perform show animation for each segment
-            _animator.showSegment(at: indexPath, segment: segment)
+            _animator.showSegment(self, at: indexPath, segment: segment)
             if let didShow = _animator.didShowSegment{
-                didShow(at: indexPath, segment: segment)
+                didShow(self, at: indexPath, segment: segment)
             }
         }
         /*UIView.animateWithDuration(SHOW_SEGMENTS_ANIMATION_DURATION, delay: 0.2, usingSpringWithDamping: 0.6, initialSpringVelocity: 0, options: [], animations: { () -> Void in
@@ -283,12 +283,12 @@ class CBMenu: UIView {
         for (index, segment) in self.segments.enumerate() {
             let indexPath = NSIndexPath(forItem: index, inSection: 0)
             if let willHide = _animator.willHideSegment{
-                willHide(at: indexPath, segment: segment)
+                willHide(self, at: indexPath, segment: segment)
             }
             
-            _animator.hideSegment(at: indexPath, segment: segment)
+            _animator.hideSegment(self, at: indexPath, segment: segment)
             if let didHide = _animator.didHideSegment{
-                didHide(at: indexPath, segment: segment)
+                didHide(self, at: indexPath, segment: segment)
             }
         }
         
