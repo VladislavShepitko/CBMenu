@@ -63,14 +63,14 @@ class CBMenu: UIView {
         }
         return _delegate.sizeForSegments()
         }()
-    
+    /*
     lazy var radius:Double  = {
         print("self frame: \(self.frame)")
         //print("background frame: \(self.backgroundView.frame)")
         let d = Double((max(self.frame.width, self.frame.height) / 2.0 )) - Double(self.segmentSize.width)
         //print("asdasd \(d)")
         return d
-        }()
+        }()*/
     
     lazy var origin:CGPoint = {
         //для того что бы расщитать корректный цента объекта не зависимо от анкор поинта нужно:
@@ -117,7 +117,7 @@ class CBMenu: UIView {
     //Call this method when datasource delegate and frame already initialized, and it can correctly calculate segment's destenation positions
     func setupView(){
         self.layoutIfNeeded()
-        createSegments()
+        //createSegments()
         initializeAdditionlViews()
     }
     
@@ -157,7 +157,7 @@ class CBMenu: UIView {
         self.addConstraints([backgroundCenter.centerX,backgroundCenter.centerY,backgroundWidth,backgroundHeight])
         self.backgroundView.layoutIfNeeded()
     }
-    
+    /*
     func createSegments(){
         //set number of items in view
         if let _dataSource = self.dataSource {
@@ -180,7 +180,7 @@ class CBMenu: UIView {
                 }
             }
         }
-    }
+    }*/
     
     //MARK:- segment's tap handler
     func onTapSegment(sender:UIButton){
@@ -205,7 +205,7 @@ class CBMenu: UIView {
             self.backgroundView.expand()
             }, completion: nil)
         */
-        let angleForEachSection =  /*self.angle */ 90.radians
+        //let angleForEachSection =  /*self.angle */ 90.radians
         
         //let startPoint = self.pointOnCircle(self.origin, numberOfSegments: self.segmentCount, angle: angleForEachSection, index: num, radius: self.radius)
         /*
@@ -222,7 +222,8 @@ class CBMenu: UIView {
         }*/
     }
     func hideSegments(){
-        /*UIView.animateWithDuration(0.1, delay: 0.4, usingSpringWithDamping: 0.5, initialSpringVelocity: 0, options: [], animations: { () -> Void in
+        /*
+        UIView.animateWithDuration(0.1, delay: 0.4, usingSpringWithDamping: 0.5, initialSpringVelocity: 0, options: [], animations: { () -> Void in
             }) { (_) -> Void in
                 for (index,segment) in self.segments.enumerate() {
                     UIView.animateWithDuration(self.HIDE_SEGMENTS_ANIMATION_DURATION, delay: self.HIDE_SEGMENTS_ANIMATION_DELAY * Double(index), usingSpringWithDamping: 0.6, initialSpringVelocity: 0, options: [.AllowUserInteraction, .CurveEaseOut ], animations: { () -> Void in
@@ -232,8 +233,8 @@ class CBMenu: UIView {
                             segment.removeFromSuperview()
                     })
                 }
-        }*/
-        
+        }
+        */
     }
     
     //MARK:- helper functions

@@ -8,6 +8,7 @@
 
 /* Begin PBXBuildFile section */
 		87733D681F264C5800D3B928 /* BackgroundView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 87733D671F264C5800D3B928 /* BackgroundView.swift */; settings = {ASSET_TAGS = (); }; };
+		87A087F11F2CDB060038BC79 /* CBMenuAnimator.swift in Sources */ = {isa = PBXBuildFile; fileRef = 87A087F01F2CDB060038BC79 /* CBMenuAnimator.swift */; settings = {ASSET_TAGS = (); }; };
 		87E0D3E01F24BE7B00945A14 /* CBMenu.swift in Sources */ = {isa = PBXBuildFile; fileRef = 87E0D3DF1F24BE7B00945A14 /* CBMenu.swift */; settings = {ASSET_TAGS = (); }; };
 		87E0D3E31F24CCAE00945A14 /* CBMenuItem.swift in Sources */ = {isa = PBXBuildFile; fileRef = 87E0D3E21F24CCAE00945A14 /* CBMenuItem.swift */; settings = {ASSET_TAGS = (); }; };
 		87E0D3E51F255A4200945A14 /* Extensions.swift in Sources */ = {isa = PBXBuildFile; fileRef = 87E0D3E41F255A4100945A14 /* Extensions.swift */; settings = {ASSET_TAGS = (); }; };
@@ -20,6 +21,7 @@
 
 /* Begin PBXFileReference section */
 		87733D671F264C5800D3B928 /* BackgroundView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = BackgroundView.swift; sourceTree = "<group>"; };
+		87A087F01F2CDB060038BC79 /* CBMenuAnimator.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = CBMenuAnimator.swift; sourceTree = "<group>"; };
 		87E0D3DF1F24BE7B00945A14 /* CBMenu.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = CBMenu.swift; sourceTree = "<group>"; };
 		87E0D3E21F24CCAE00945A14 /* CBMenuItem.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = CBMenuItem.swift; sourceTree = "<group>"; };
 		87E0D3E41F255A4100945A14 /* Extensions.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Extensions.swift; sourceTree = "<group>"; };
@@ -49,6 +51,7 @@
 				87E0D3DF1F24BE7B00945A14 /* CBMenu.swift */,
 				87E0D3E21F24CCAE00945A14 /* CBMenuItem.swift */,
 				87733D671F264C5800D3B928 /* BackgroundView.swift */,
+				87A087F01F2CDB060038BC79 /* CBMenuAnimator.swift */,
 			);
 			name = CBMenu;
 			sourceTree = "<group>";
@@ -157,6 +160,7 @@
 			files = (
 				87733D681F264C5800D3B928 /* BackgroundView.swift in Sources */,
 				87E0D3E51F255A4200945A14 /* Extensions.swift in Sources */,
+				87A087F11F2CDB060038BC79 /* CBMenuAnimator.swift in Sources */,
 				87E0D3E31F24CCAE00945A14 /* CBMenuItem.swift in Sources */,
 				87E0D3E01F24BE7B00945A14 /* CBMenu.swift in Sources */,
 				87E97F6A1F1FF2C7002001E6 /* ViewController.swift in Sources */,
