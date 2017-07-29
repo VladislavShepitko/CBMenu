@@ -223,10 +223,18 @@ class CBMenu: UIView {
     func onTapShowHideButton(sender:UIButton){
         if self.isMenuExpanded {
             //hide
-            //self.hideSegments()
+            do {
+                try self.hideSegments()
+            }catch {
+                print(error)
+            }
         }else {
             //show
-            //try self.showSegments()
+            do {
+                try self.showSegments()
+            }catch {
+                print(error)
+            }
         }
         self.isMenuExpanded = !self.isMenuExpanded
         print("tap on menu button")
@@ -242,6 +250,7 @@ class CBMenu: UIView {
             if let willShow = _animator.willShowSegment{
                 willShow(at: indexPath, segment: segment)
             }
+            //perform show animation for each segment
             _animator.showSegment(at: indexPath, segment: segment)
             if let didShow = _animator.didShowSegment{
                 didShow(at: indexPath, segment: segment)
@@ -276,6 +285,7 @@ class CBMenu: UIView {
             if let willHide = _animator.willHideSegment{
                 willHide(at: indexPath, segment: segment)
             }
+            
             _animator.hideSegment(at: indexPath, segment: segment)
             if let didHide = _animator.didHideSegment{
                 didHide(at: indexPath, segment: segment)
@@ -297,11 +307,6 @@ class CBMenu: UIView {
         */
     }
     
-    //MARK:- helper functions
-    func pointOnCircle(origin:CGPoint, numberOfSegments:Int, angle:Double,index:Int,radius:Double) -> CGPoint {
-        let x = origin.x  - CGFloat(sin(angle / Double(numberOfSegments) * Double(index)) * radius)
-        let y = origin.y  - CGFloat(cos(angle / Double(numberOfSegments) * Double(index)) * radius)
-        return CGPoint(x: x, y: y)
-    }
+    
 }
 

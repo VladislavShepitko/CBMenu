@@ -8,7 +8,7 @@
 
 import UIKit
 
-@objc protocol CBMenuAnimatorDelegate: class {
+@objc protocol CBMenuAnimatorDelegate {
     
     func destenationPositionForSegment(at indexPath:NSIndexPath)->CGPoint
         
