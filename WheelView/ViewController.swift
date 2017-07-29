@@ -39,11 +39,11 @@ class ViewController: UIViewController {
         
         
         //make button's constraint
-        let centerX = NSLayoutConstraint(item: self.menu, attribute: .Right, relatedBy: .Equal, toItem: self.view, attribute: .Right, multiplier: 1, constant: 0)
-        let centerY = NSLayoutConstraint(item: self.menu, attribute: .Bottom, relatedBy: .Equal, toItem: self.view, attribute: .Bottom, multiplier: 1, constant: 0)
+        let centerX = NSLayoutConstraint(item: self.menu, attribute: .CenterX, relatedBy: .Equal, toItem: self.view, attribute: .CenterX, multiplier: 1, constant: 0)
+        let centerY = NSLayoutConstraint(item: self.menu, attribute: .CenterY, relatedBy: .Equal, toItem: self.view, attribute: .CenterY, multiplier: 1, constant: 0)
         
-        let width = self.menu.widthAnchor.constraintEqualToConstant(250)
-        let height = self.menu.heightAnchor.constraintEqualToConstant(250)
+        let width = self.menu.widthAnchor.constraintEqualToConstant(300)
+        let height = self.menu.heightAnchor.constraintEqualToConstant(30)
         //self.menu.layer.anchorPoint = CGPoint(x: 0.15, y: 0.15)
         self.view.addConstraints([centerX,centerY,width,height])
         print("sasd")

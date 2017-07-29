@@ -26,7 +26,7 @@ class BackgroundView: UIView {
                 _newView.insertSubview(self, atIndex: 1)
             }
             self.translatesAutoresizingMaskIntoConstraints = false
-            self.layer.cornerRadius = _newView.frame.width / 2
+            //self.layer.cornerRadius = _newView.frame.width / 2
             self.backgroundColor = UIColor.yellowColor()
             self.layer.masksToBounds = true
 

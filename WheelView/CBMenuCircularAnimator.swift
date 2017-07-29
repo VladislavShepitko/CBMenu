@@ -11,31 +11,42 @@ import UIKit
 @objc class CBMenuCircularAnimator: NSObject, CBMenuAnimatorDelegate {
     
     
-    let xOffset:CGFloat = 35.0
+    let xOffset:CGFloat = 25.0
     //var currentXPosition:CGFloat = 0.0
-    lazy var curOffset:CGPoint = {
-        return CGPoint(x: self.xOffset, y: 0)
-    }()
+    var curOffset:CGPoint = CGPointZero
     
     func destenationPositionForSegment(menu:CBMenu, at indexPath:NSIndexPath)->CGPoint{
         
-        let xSign:CGFloat = indexPath.item % 2 == 0 ? 1 : -1
-        let x = menu.origin.x + (xOffset * CGFloat(indexPath.item) * xSign)
-        
-        return CGPointMake(x, menu.origin.y)
+        //let xSign:CGFloat = indexPath.item % 2 == 0 ? 1 : -1
+        //let x = menu.origin.x + xOffset * xSign
+        curOffset = CGPointMake(curOffset.x + xOffset, 0)
+        print(curOffset)
+        if indexPath.item % 2 == 0 {
+            return menu.origin + curOffset
+        }else{
+            return menu.origin - curOffset
+        }
     }
     
     func showSegment(menu:CBMenu, at indexPath:NSIndexPath, segment: CBMenuItem)
     {
-        print("show \(indexPath.item) element in \(segment.destenationPosition)")
+        segment.transform = CGAffineTransformMakeTranslation(menu.origin.x, menu.origin.y)
         menu.backgroundView.addSubview(segment)
-        UIView.animateWithDuration(0.4 * Double(indexPath.item), animations: { () -> Void in
+        
+        UIView.animateWithDuration(0.1 * Double(indexPath.item), animations: { () -> Void in
             segment.transform = CGAffineTransformMakeTranslation(segment.destenationPosition.x, segment.destenationPosition.y)
-            segment.alpha = 1
+            //segment.alpha = 1
         })
     }
     func hideSegment(menu:CBMenu, at indexPath:NSIndexPath, segment: CBMenuItem){
-        print("hide \(indexPath.item) element in \(segment.destenationPosition)")
+        //print("hide \(indexPath.item) element in \(segment.destenationPosition)")
+        
+        UIView.animateWithDuration(0.1 * Double(indexPath.item), animations: { () -> Void in
+            segment.transform = CGAffineTransformMakeTranslation(menu.origin.x, menu.origin.y)
+            //segment.alpha = 0
+            }){(_)in
+                segment.removeFromSuperview()
+        }
     }
     
     //MARK:- helper functions

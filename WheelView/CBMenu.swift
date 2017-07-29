@@ -108,7 +108,7 @@ class CBMenu: UIView {
         //для того что бы расщитать корректный цента объекта не зависимо от анкор поинта нужно:
         //Расчитать ориджин поинт на основании ширины высоты и анкор поинта,
         //но так как оно найдет только верхний угол обьекта то нужно еще отнять половину ширины и высоты
-        let pos = CGPointMake(self.bounds.size.width * self.layer.anchorPoint.x - self.segmentSize.width / 2, self.bounds.size.height * self.layer.anchorPoint.y - self.segmentSize.height / 2)
+        let pos = CGPointMake(self.bounds.size.width * self.layer.anchorPoint.x- self.segmentSize.width / 2.0*/, self.bounds.size.height * self.layer.anchorPoint.y - self.segmentSize.height / 2.0)
         //Ну а в итоге конвертировать из своей системы координат в родительскую
         let convertedPos = self.convertPoint(pos, toView: self.superview!)
         
