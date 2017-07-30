@@ -22,7 +22,8 @@ import UIKit
     optional func didShowSegment(menu:CBMenu, at indexPath:NSIndexPath, segment: CBMenuItem)
     optional func didHideSegment(menu:CBMenu, at indexPath:NSIndexPath, segment: CBMenuItem)
     
-    
+    optional func allAnimationsDidFinish(menu:CBMenu)
+    optional func animateBackground(menu:CBMenu)
     
     
 }

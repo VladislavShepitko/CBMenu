@@ -184,30 +184,6 @@ class CBMenu: UIView {
         self.addConstraints([backgroundCenter.centerX,backgroundCenter.centerY,backgroundWidth,backgroundHeight])
         self.backgroundView.layoutIfNeeded()
     }
-    /*
-    func createSegments(){
-    //set number of items in view
-    if let _dataSource = self.dataSource {
-    for section in 0..<self.sectionCount{
-    let angleForEachSection =  /*self.angle */ 90.radians
-    //create segments
-    for item in 0..<self.segmentCount {
-    let indexPath = NSIndexPath(forItem: item, inSection: section)
-    let images = _dataSource.imageForSegment(at: indexPath)
-    
-    let position = self.pointOnCircle(self.origin, numberOfSegments: self.segmentCount, angle: angleForEachSection, index: item, radius: self.radius)
-    
-    let frame = CGRect(origin: position, size: self.segmentSize)
-    
-    let newSegment = CBMenuItem(active: images.active, unactive: images.unactive, frame: frame, onTap: self.onTapSegment)
-    let w = newSegment.widthAnchor.constraintEqualToConstant(self.segmentSize.width)
-    let h = newSegment.heightAnchor.constraintEqualToConstant(self.segmentSize.height)
-    newSegment.addConstraints([w,h])
-    self.segments.append(newSegment)
-    }
-    }
-    }
-    }*/
     
     //MARK:- segment's tap handler
     func onTapSegment(sender:UIButton){
@@ -274,17 +250,25 @@ class CBMenu: UIView {
         guard let _animator = self.animator else {
             throw CBMenuError.AnimatorNullPointer
         }
-        for (index, segment) in self.segments.enumerate() {
-            let indexPath = NSIndexPath(forItem: index, inSection: 0)
-            if let willHide = _animator.willHideSegment{
-                willHide(self, at: indexPath, segment: segment)
-            }
+        UIView.animateWithDuration(0.4, delay: 0.0, usingSpringWithDamping: 0.6, initialSpringVelocity: 0, options: [], animations: { () -> Void in
+            //Here call delegates function
             
-            _animator.hideSegment(self, at: indexPath, segment: segment)
-            if let didHide = _animator.didHideSegment{
-                didHide(self, at: indexPath, segment: segment)
+            for (index, segment) in self.segments.enumerate() {
+                let indexPath = NSIndexPath(forItem: index, inSection: 0)
+                if let willHide = _animator.willHideSegment{
+                    willHide(self, at: indexPath, segment: segment)
+                }
+                
+                _animator.hideSegment(self, at: indexPath, segment: segment)
+                if let didHide = _animator.didHideSegment{
+                    didHide(self, at: indexPath, segment: segment)
+                }
             }
+            }) { (_) -> Void in
+              //after all animations is complete we can call comletion func
+                
         }
+        
         
         /*
         UIView.animateWithDuration(0.1, delay: 0.4, usingSpringWithDamping: 0.5, initialSpringVelocity: 0, options: [], animations: { () -> Void in
