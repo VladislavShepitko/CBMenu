@@ -41,3 +41,13 @@ func -= (var lp:CGPoint, rp:CGPoint) -> CGPoint
     lp.y -= rp.y
     return lp
 }
+func * ( lp:CGPoint, mult:CGFloat) -> CGPoint
+{
+    return CGPoint(x: lp.x * mult, y: lp.y * mult)
+}
+func *= (var lp:CGPoint, mult:CGFloat) -> CGPoint
+{
+    lp.x *= mult
+    lp.y *= mult
+    return lp
+}

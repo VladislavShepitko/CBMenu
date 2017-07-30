@@ -18,7 +18,7 @@ class ViewController: UIViewController {
     */
     
     lazy var menu:CBMenu! = {
-        let animator = CBMenuCircularAnimator()
+        let animator = CBMenuLinearAnimator()
         let m = CBMenu(withDataSource: self, delegate: self,animator: animator)
         return m
     }()
@@ -71,7 +71,7 @@ extension ViewController:CBMenuDataSource, CBMenuDelegate {
     
     func numberOfSegments() -> Int
     {
-        return 4
+        return 6
     }
     func imageForSegment(at indexPath:NSIndexPath) -> ToggleImages
     {
