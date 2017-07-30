@@ -8,6 +8,7 @@
 
 import UIKit
 typealias ToggleImages = (active:UIImage, unactive:UIImage)
+typealias TapAction  = ((sender:UIButton)->())?
 
 enum CBMenuError : ErrorType {
     case AnimatorNullPointer
@@ -18,6 +19,7 @@ enum CBMenuError : ErrorType {
 protocol CBMenuDataSource:class {
     func numberOfSegments() -> Int
     func imageForSegment(at indexPath:NSIndexPath) -> ToggleImages
+    func actionForSegment(at indexPath:NSIndexPath) -> TapAction
 }
 
 protocol CBMenuDelegate:class {
@@ -28,9 +30,9 @@ protocol CBMenuDelegate:class {
 
 class CBMenu: UIView {
     
-    weak var dataSource:CBMenuDataSource?
-    weak var delegate:CBMenuDelegate?
-    weak var animator:CBMenuAnimatorDelegate?
+    var dataSource:CBMenuDataSource?
+    var delegate:CBMenuDelegate?
+    var animator:CBMenuAnimatorDelegate?
     
     lazy var backgroundView:BackgroundView! = {
         let view = BackgroundView(withSuperView: self)
@@ -71,6 +73,7 @@ class CBMenu: UIView {
                 let frame = CGRect(origin: destenationPosition, size: self.segmentSize)
                 
                 let newSegment = CBMenuItem(active: images.active, unactive: images.unactive, frame: frame, onTap: self.onTapSegment)
+                newSegment.tag = item
                 let w = newSegment.widthAnchor.constraintEqualToConstant(self.segmentSize.width)
                 let h = newSegment.heightAnchor.constraintEqualToConstant(self.segmentSize.height)
                 newSegment.addConstraints([w,h])
@@ -122,7 +125,7 @@ class CBMenu: UIView {
         self.backgroundColor = UIColor.clearColor()
     }
     
-    convenience init(withDataSource dataSource:CBMenuDataSource,delegate: CBMenuDelegate, animator:CBMenuAnimatorDelegate, frame: CGRect = CGRectZero){
+    convenience init(withDataSource dataSource:CBMenuDataSource,delegate: CBMenuDelegate, animator:CBMenuAnimatorDelegate = CBMenuLinearAnimator(), frame: CGRect = CGRectZero){
         self.init(frame: frame)
         self.dataSource = dataSource
         self.delegate = delegate
@@ -177,6 +180,12 @@ class CBMenu: UIView {
     func onTapSegment(sender:UIButton){
         onTapShowHideButton(self.showHideButton)
         //delegate function
+        if let _dataSource = self.dataSource {
+            let indexPath = NSIndexPath(forItem: sender.tag, inSection: 0)
+            if let action = _dataSource.actionForSegment(at: indexPath){
+                action(sender:sender)
+            }
+        }
     }
     func onTapShowHideButton(sender:UIButton){
         if self.isMenuExpanded {

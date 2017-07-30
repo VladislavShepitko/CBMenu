@@ -18,8 +18,7 @@ class ViewController: UIViewController {
     */
     
     lazy var menu:CBMenu! = {
-        let animator = CBMenuLinearAnimator()
-        let m = CBMenu(withDataSource: self, delegate: self,animator: animator)
+        let m = CBMenu(withDataSource: self, delegate: self)
         return m
     }()
     

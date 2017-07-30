@@ -36,9 +36,9 @@ import UIKit
 }
 extension CBMenuAnimatorDelegate {
     func showSegment(menu:CBMenu, at indexPath:NSIndexPath, segment: CBMenuItem)
-    {
-        segment.transform = CGAffineTransformMakeTranslation(menu.origin.x, menu.origin.y)
+    {        
         menu.backgroundView.addSubview(segment)
+        segment.transform = CGAffineTransformMakeTranslation(menu.origin.x, menu.origin.y)
         
         UIView.animateWithDuration(0.2, delay: 0.0 * Double(indexPath.item), usingSpringWithDamping: 0.6, initialSpringVelocity: 0, options: [.AllowUserInteraction,.CurveEaseOut], animations: { () -> Void in
             let destenation = segment.destenationPosition
