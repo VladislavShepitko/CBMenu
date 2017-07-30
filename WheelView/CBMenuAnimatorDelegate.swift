@@ -25,9 +25,13 @@ import UIKit
     optional func allAnimationsDidFinishWhenHide(menu:CBMenu)
     optional func allAnimationsDidFinishWhenShow(menu:CBMenu)
     
-    optional func animateBackgroundWhenHide(menu:CBMenu)
-    optional func animateBackgroundWhenShow(menu:CBMenu)
+    optional func wilHideBackground(menu:CBMenu, background:BackgroundView)
+    optional func hideBackground(menu:CBMenu, background:BackgroundView)
+    optional func didHideBackground(menu:CBMenu, background:BackgroundView)
     
+    optional func wilShowBackground(menu:CBMenu, background:BackgroundView)
+    optional func showBackground(menu:CBMenu, background:BackgroundView)
+    optional func didShowBackground(menu:CBMenu, background:BackgroundView)    
     
 }
 extension CBMenuAnimatorDelegate {
@@ -36,7 +40,7 @@ extension CBMenuAnimatorDelegate {
         segment.transform = CGAffineTransformMakeTranslation(menu.origin.x, menu.origin.y)
         menu.backgroundView.addSubview(segment)
         
-        UIView.animateWithDuration(0.2, delay: 0.2 * Double(indexPath.item), usingSpringWithDamping: 0.6, initialSpringVelocity: 0, options: [.AllowUserInteraction,.CurveEaseOut], animations: { () -> Void in
+        UIView.animateWithDuration(0.2, delay: 0.0 * Double(indexPath.item), usingSpringWithDamping: 0.6, initialSpringVelocity: 0, options: [.AllowUserInteraction,.CurveEaseOut], animations: { () -> Void in
             let destenation = segment.destenationPosition
             segment.transform = CGAffineTransformMakeTranslation(destenation.x, destenation.y)
             segment.alpha = 1
@@ -46,7 +50,7 @@ extension CBMenuAnimatorDelegate {
     {
         //print("hide \(indexPath.item) element in \(segment.destenationPosition)")
         
-        UIView.animateWithDuration(0.2, delay: 0.2 * Double(indexPath.item), usingSpringWithDamping: 0.6, initialSpringVelocity: 0, options: [.AllowUserInteraction, .CurveEaseOut ], animations: { () -> Void in
+        UIView.animateWithDuration(0.2, delay: 0.0 * Double(indexPath.item), usingSpringWithDamping: 0.6, initialSpringVelocity: 0, options: [.AllowUserInteraction, .CurveEaseOut ], animations: { () -> Void in
             segment.transform = CGAffineTransformMakeTranslation(menu.origin.x, menu.origin.y)
             segment.alpha = 0
             }, completion: {(_)in

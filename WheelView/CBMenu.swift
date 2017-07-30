@@ -15,13 +15,12 @@ enum CBMenuError : ErrorType {
 }
 
 
-protocol CBMenuDataSource {
+protocol CBMenuDataSource:class {
     func numberOfSegments() -> Int
     func imageForSegment(at indexPath:NSIndexPath) -> ToggleImages
-    
 }
 
-protocol CBMenuDelegate {
+protocol CBMenuDelegate:class {
     func sizeForSegments() -> CGSize
     func sizeForMenuButton()->CGSize
     func imagesForMenuButtonStates() -> ToggleImages
@@ -29,9 +28,9 @@ protocol CBMenuDelegate {
 
 class CBMenu: UIView {
     
-    var dataSource:CBMenuDataSource?
-    var delegate:CBMenuDelegate?
-    var animator:CBMenuAnimatorDelegate?
+    weak var dataSource:CBMenuDataSource?
+    weak var delegate:CBMenuDelegate?
+    weak var animator:CBMenuAnimatorDelegate?
     
     lazy var backgroundView:BackgroundView! = {
         let view = BackgroundView(withSuperView: self)
@@ -47,10 +46,6 @@ class CBMenu: UIView {
         return btn
         }()
     
-    
-    
-    //it can be just 4 section. We devide circle for 4 piaces
-    //private(set) var sectionCount:Int = 1
     
     lazy private(set) var segmentCount:Int = {
         guard let _dataSource = self.dataSource else {
@@ -95,14 +90,7 @@ class CBMenu: UIView {
         }
         return _delegate.sizeForSegments()
         }()
-    /*
-    lazy var radius:Double  = {
-    print("self frame: \(self.frame)")
-    //print("background frame: \(self.backgroundView.frame)")
-    let d = Double((max(self.frame.width, self.frame.height) / 2.0 )) - Double(self.segmentSize.width)
-    //print("asdasd \(d)")
-    return d
-    }()*/
+    
     
     lazy var origin:CGPoint = {
         //для того что бы расчитать корректный цента объекта не зависимо от анкор поинта нужно:
@@ -215,11 +203,15 @@ class CBMenu: UIView {
         guard let _animator = self.animator else {
             throw CBMenuError.AnimatorNullPointer
         }
+        if let willAnimate = _animator.wilShowBackground {
+            willAnimate(self, background: self.backgroundView)
+        }
         UIView.animateWithDuration(0.4, delay: 0.0, usingSpringWithDamping: 0.6, initialSpringVelocity: 0, options: [], animations: { () -> Void in
             //Here call delegates function
-            if let animateBackground = _animator.animateBackgroundWhenShow{
-                animateBackground(self)
+            if let animateBackground = _animator.showBackground{
+                animateBackground(self, background: self.backgroundView)
             }
+            
             for (index, segment) in self.segments.enumerate() {
                 let indexPath = NSIndexPath(forItem: index, inSection: 0)
                 if let willShow = _animator.willShowSegment{
@@ -233,8 +225,8 @@ class CBMenu: UIView {
             }
             }) { (_) -> Void in
                 //after all animations is complete we can call comletion func
-                if let allAnimations = _animator.allAnimationsDidFinishWhenShow {
-                    allAnimations(self)
+                if let didShow = _animator.didShowBackground {
+                    didShow(self, background: self.backgroundView)
                 }
             }
                 
@@ -244,10 +236,13 @@ class CBMenu: UIView {
             guard let _animator = self.animator else {
                 throw CBMenuError.AnimatorNullPointer
             }
+            if let willAnimate = _animator.wilHideBackground {
+                willAnimate(self, background: self.backgroundView)
+            }
             UIView.animateWithDuration(0.4, delay: 0.0, usingSpringWithDamping: 0.6, initialSpringVelocity: 0, options: [], animations: { () -> Void in
                 //Here call delegates function
-                if let animateBackground = _animator.animateBackgroundWhenHide{
-                    animateBackground(self)
+                if let animateBackground = _animator.hideBackground{
+                    animateBackground(self, background: self.backgroundView)
                 }
                 for (index, segment) in self.segments.enumerate() {
                     let indexPath = NSIndexPath(forItem: index, inSection: 0)
@@ -262,8 +257,8 @@ class CBMenu: UIView {
                 }
                 }) { (_) -> Void in
                     //after all animations is complete we can call comletion func
-                    if let allAnimations = _animator.allAnimationsDidFinishWhenHide {
-                        allAnimations(self)
+                    if let didHide = _animator.didHideBackground {
+                        didHide(self, background: self.backgroundView)
                     }
             }
             

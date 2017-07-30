@@ -9,7 +9,14 @@
 import UIKit
 
 @objc class CBMenuCircularAnimator:NSObject, CBMenuAnimatorDelegate {
-    
+    /*
+    lazy var radius:Double  = {
+    print("self frame: \(self.frame)")
+    //print("background frame: \(self.backgroundView.frame)")
+    let d = Double((max(self.frame.width, self.frame.height) / 2.0 )) - Double(self.segmentSize.width)
+    //print("asdasd \(d)")
+    return d
+    }()*/
     
     func destenationPositionForSegment(menu:CBMenu, at indexPath:NSIndexPath)->CGPoint{
         /*let direction:CGFloat = indexPath.item % 2 == 0 ? 1 : -1
