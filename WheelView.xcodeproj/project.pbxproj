@@ -10,6 +10,7 @@
 		877318A11F2CEAA800F0428A /* CBMenuLinearAnimator.swift in Sources */ = {isa = PBXBuildFile; fileRef = 877318A01F2CEAA800F0428A /* CBMenuLinearAnimator.swift */; settings = {ASSET_TAGS = (); }; };
 		87733D681F264C5800D3B928 /* BackgroundView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 87733D671F264C5800D3B928 /* BackgroundView.swift */; settings = {ASSET_TAGS = (); }; };
 		87A087F11F2CDB060038BC79 /* CBMenuAnimatorDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 87A087F01F2CDB060038BC79 /* CBMenuAnimatorDelegate.swift */; settings = {ASSET_TAGS = (); }; };
+		87BC020C1F2DE18400C61DFF /* CBMenuCircularAnimator.swift in Sources */ = {isa = PBXBuildFile; fileRef = 87BC020B1F2DE18400C61DFF /* CBMenuCircularAnimator.swift */; settings = {ASSET_TAGS = (); }; };
 		87E0D3E01F24BE7B00945A14 /* CBMenu.swift in Sources */ = {isa = PBXBuildFile; fileRef = 87E0D3DF1F24BE7B00945A14 /* CBMenu.swift */; settings = {ASSET_TAGS = (); }; };
 		87E0D3E31F24CCAE00945A14 /* CBMenuItem.swift in Sources */ = {isa = PBXBuildFile; fileRef = 87E0D3E21F24CCAE00945A14 /* CBMenuItem.swift */; settings = {ASSET_TAGS = (); }; };
 		87E0D3E51F255A4200945A14 /* Extensions.swift in Sources */ = {isa = PBXBuildFile; fileRef = 87E0D3E41F255A4100945A14 /* Extensions.swift */; settings = {ASSET_TAGS = (); }; };
@@ -24,6 +25,7 @@
 		877318A01F2CEAA800F0428A /* CBMenuLinearAnimator.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = CBMenuLinearAnimator.swift; sourceTree = "<group>"; };
 		87733D671F264C5800D3B928 /* BackgroundView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = BackgroundView.swift; sourceTree = "<group>"; };
 		87A087F01F2CDB060038BC79 /* CBMenuAnimatorDelegate.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = CBMenuAnimatorDelegate.swift; sourceTree = "<group>"; };
+		87BC020B1F2DE18400C61DFF /* CBMenuCircularAnimator.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = CBMenuCircularAnimator.swift; sourceTree = "<group>"; };
 		87E0D3DF1F24BE7B00945A14 /* CBMenu.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = CBMenu.swift; sourceTree = "<group>"; };
 		87E0D3E21F24CCAE00945A14 /* CBMenuItem.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = CBMenuItem.swift; sourceTree = "<group>"; };
 		87E0D3E41F255A4100945A14 /* Extensions.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Extensions.swift; sourceTree = "<group>"; };
@@ -55,6 +57,7 @@
 				87733D671F264C5800D3B928 /* BackgroundView.swift */,
 				87A087F01F2CDB060038BC79 /* CBMenuAnimatorDelegate.swift */,
 				877318A01F2CEAA800F0428A /* CBMenuLinearAnimator.swift */,
+				87BC020B1F2DE18400C61DFF /* CBMenuCircularAnimator.swift */,
 			);
 			name = CBMenu;
 			sourceTree = "<group>";
@@ -168,6 +171,7 @@
 				87E0D3E31F24CCAE00945A14 /* CBMenuItem.swift in Sources */,
 				87E0D3E01F24BE7B00945A14 /* CBMenu.swift in Sources */,
 				87E97F6A1F1FF2C7002001E6 /* ViewController.swift in Sources */,
+				87BC020C1F2DE18400C61DFF /* CBMenuCircularAnimator.swift in Sources */,
 				87E97F681F1FF2C7002001E6 /* AppDelegate.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;

@@ -50,7 +50,7 @@ class CBMenu: UIView {
     
     
     //it can be just 4 section. We devide circle for 4 piaces
-    private(set) var sectionCount:Int = 1
+    //private(set) var sectionCount:Int = 1
     
     lazy private(set) var segmentCount:Int = {
         guard let _dataSource = self.dataSource else {
@@ -85,7 +85,7 @@ class CBMenu: UIView {
             
         }
         return _segments
-    }()
+        }()
     
     
     //segments parameters
@@ -94,7 +94,7 @@ class CBMenu: UIView {
             return CGSizeZero
         }
         return _delegate.sizeForSegments()
-    }()
+        }()
     /*
     lazy var radius:Double  = {
     print("self frame: \(self.frame)")
@@ -105,7 +105,7 @@ class CBMenu: UIView {
     }()*/
     
     lazy var origin:CGPoint = {
-        //для того что бы расщитать корректный цента объекта не зависимо от анкор поинта нужно:
+        //для того что бы расчитать корректный цента объекта не зависимо от анкор поинта нужно:
         //Расчитать ориджин поинт на основании ширины высоты и анкор поинта,
         //но так как оно найдет только верхний угол обьекта то нужно еще отнять половину ширины и высоты
         let pos = CGPointMake(self.bounds.size.width * self.layer.anchorPoint.x - self.segmentSize.width / 2.0, self.bounds.size.height * self.layer.anchorPoint.y - self.segmentSize.height / 2.0)
@@ -215,76 +215,60 @@ class CBMenu: UIView {
         guard let _animator = self.animator else {
             throw CBMenuError.AnimatorNullPointer
         }
-        for (index, segment) in self.segments.enumerate() {
-            let indexPath = NSIndexPath(forItem: index, inSection: 0)
-            if let willShow = _animator.willShowSegment{
-                willShow(self, at: indexPath, segment: segment)
-            }
-            //perform show animation for each segment
-            _animator.showSegment(self, at: indexPath, segment: segment)
-            if let didShow = _animator.didShowSegment{
-                didShow(self, at: indexPath, segment: segment)
-            }
-        }
-        /*UIView.animateWithDuration(SHOW_SEGMENTS_ANIMATION_DURATION, delay: 0.2, usingSpringWithDamping: 0.6, initialSpringVelocity: 0, options: [], animations: { () -> Void in
-        self.backgroundView.expand()
-        }, completion: nil)
-        */
-        //let angleForEachSection =  /*self.angle */ 90.radians
-        
-        //let startPoint = self.pointOnCircle(self.origin, numberOfSegments: self.segmentCount, angle: angleForEachSection, index: num, radius: self.radius)
-        /*
-        for (index,segment) in self.segments.enumerate() {
-        //reset segment's origin point
-        segment.transform = CGAffineTransformMakeTranslation(self.origin.x, self.origin.y)
-        self.backgroundView.addSubview(segment)
-        
-        UIView.animateWithDuration(SHOW_SEGMENTS_ANIMATION_DURATION, delay: SHOW_SEGMENTS_ANIMATION_DELAY * Double(index), usingSpringWithDamping: 0.6, initialSpringVelocity: 0, options: [.AllowUserInteraction,.CurveEaseOut], animations: { () -> Void in
-        let destenation = segment.destenationPosition
-        segment.transform = CGAffineTransformMakeTranslation(destenation.x, destenation.y)
-        segment.alpha = 1
-        }, completion: nil)
-        }*/
-    }
-    func hideSegments()throws {
-        guard let _animator = self.animator else {
-            throw CBMenuError.AnimatorNullPointer
-        }
         UIView.animateWithDuration(0.4, delay: 0.0, usingSpringWithDamping: 0.6, initialSpringVelocity: 0, options: [], animations: { () -> Void in
             //Here call delegates function
-            
+            if let animateBackground = _animator.animateBackgroundWhenShow{
+                animateBackground(self)
+            }
             for (index, segment) in self.segments.enumerate() {
                 let indexPath = NSIndexPath(forItem: index, inSection: 0)
-                if let willHide = _animator.willHideSegment{
-                    willHide(self, at: indexPath, segment: segment)
+                if let willShow = _animator.willShowSegment{
+                    willShow(self, at: indexPath, segment: segment)
                 }
-                
-                _animator.hideSegment(self, at: indexPath, segment: segment)
-                if let didHide = _animator.didHideSegment{
-                    didHide(self, at: indexPath, segment: segment)
+                //perform show animation for each segment
+                _animator.showSegment(self, at: indexPath, segment: segment)
+                if let didShow = _animator.didShowSegment{
+                    didShow(self, at: indexPath, segment: segment)
                 }
             }
             }) { (_) -> Void in
-              //after all animations is complete we can call comletion func
+                //after all animations is complete we can call comletion func
+                if let allAnimations = _animator.allAnimationsDidFinishWhenShow {
+                    allAnimations(self)
+                }
+            }
                 
         }
         
+        func hideSegments()throws {
+            guard let _animator = self.animator else {
+                throw CBMenuError.AnimatorNullPointer
+            }
+            UIView.animateWithDuration(0.4, delay: 0.0, usingSpringWithDamping: 0.6, initialSpringVelocity: 0, options: [], animations: { () -> Void in
+                //Here call delegates function
+                if let animateBackground = _animator.animateBackgroundWhenHide{
+                    animateBackground(self)
+                }
+                for (index, segment) in self.segments.enumerate() {
+                    let indexPath = NSIndexPath(forItem: index, inSection: 0)
+                    if let willHide = _animator.willHideSegment{
+                        willHide(self, at: indexPath, segment: segment)
+                    }
+                    
+                    _animator.hideSegment(self, at: indexPath, segment: segment)
+                    if let didHide = _animator.didHideSegment{
+                        didHide(self, at: indexPath, segment: segment)
+                    }
+                }
+                }) { (_) -> Void in
+                    //after all animations is complete we can call comletion func
+                    if let allAnimations = _animator.allAnimationsDidFinishWhenHide {
+                        allAnimations(self)
+                    }
+            }
+            
+        }
         
-        /*
-        UIView.animateWithDuration(0.1, delay: 0.4, usingSpringWithDamping: 0.5, initialSpringVelocity: 0, options: [], animations: { () -> Void in
-        }) { (_) -> Void in
-        for (index,segment) in self.segments.enumerate() {
-        UIView.animateWithDuration(self.HIDE_SEGMENTS_ANIMATION_DURATION, delay: self.HIDE_SEGMENTS_ANIMATION_DELAY * Double(index), usingSpringWithDamping: 0.6, initialSpringVelocity: 0, options: [.AllowUserInteraction, .CurveEaseOut ], animations: { () -> Void in
-        segment.transform = CGAffineTransformMakeTranslation(self.origin.x, self.origin.y)
-        segment.alpha = 0
-        }, completion: {(_)in
-        segment.removeFromSuperview()
-        })
-        }
-        }
-        */
-    }
-    
-    
+        
 }
 

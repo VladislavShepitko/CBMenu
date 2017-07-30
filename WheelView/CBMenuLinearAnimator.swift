@@ -27,7 +27,7 @@ import UIKit
 
         return menu.origin + curOffset * direction
     }
-    
+    /*
     func showSegment(menu:CBMenu, at indexPath:NSIndexPath, segment: CBMenuItem)
     {
         segment.transform = CGAffineTransformMakeTranslation(menu.origin.x, menu.origin.y)
@@ -49,12 +49,6 @@ import UIKit
                 segment.removeFromSuperview()
         })
     }
-    
-    //MARK:- helper functions
-    func pointOnCircle(origin:CGPoint, numberOfSegments:Int, angle:Double,index:Int,radius:Double) -> CGPoint {
-        let x = origin.x  - CGFloat(sin(angle / Double(numberOfSegments) * Double(index)) * radius)
-        let y = origin.y  - CGFloat(cos(angle / Double(numberOfSegments) * Double(index)) * radius)
-        return CGPoint(x: x, y: y)
-    }
+    */
     
 }
